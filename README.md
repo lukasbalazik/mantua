@@ -12,13 +12,13 @@ This project can be also used for your proprietary software to protect your Inte
 
 **./test/test.c** - is mine test file which is used in Makefile to test all functionality. If you use AUTO_TIME capsules, at your first start you have to use linker from user-space because if its served trough kernel you will get locking which prevent our binary rewrite, in my case:
 
-```bash
+```sh
 sudo /lib64/ld-linux-x86-64.so.2 ./build/test
 ```
 
 For finding right path use
 
-```bash
+```sh
 ldd ./build/test
 ....
 ....
@@ -28,7 +28,7 @@ ldd ./build/test
 
 For all other runs you run it just by:
 
-```bash
+```sh
 sudo ./build/test
 ```
 
