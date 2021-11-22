@@ -31,6 +31,9 @@ int main(int argc, char *argv[])  {
     printf("My code that will not be debbuged\n");
     fflush(stdout);
 
+    int ret = hypervisor_in_cpuinfo();
+    printf("hypervisor in /proc/cpuinfo: %d\n", ret);
+
     mantua_finish(argv[0]);
 
     return 0;

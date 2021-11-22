@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -O3 -Ofast -Iinclude -Itests -lpthread -lelf
-OBJ=src/mantua.c src/antidebug.c  src/elf_inject.c
-DEPS=include/manuta.h include/antidebug.h include/elf_inject.h
+OBJ=src/mantua.c src/antidebug.c src/antivm.c src/elf_inject.c
+DEPS=include/manuta.h include/antidebug.h include/antivm.h include/elf_inject.h
 BUILD=build
 
 TEST=tests/test.o
