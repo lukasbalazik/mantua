@@ -427,19 +427,16 @@ int inject_code(int fd, inject_data_t *inject)
     }
 
     if (!gelf_getehdr(elf.e, &elf.ehdr)) {
-        printf("jebol getehdr\n");
         goto fail;
     }
     
     
     if (find_rewritable_segment(&elf, inject) < 0) {
-        printf("jebol rew segment\n");
         goto fail;
     }
 
     
     if (write_code(&elf, inject) < 0) {
-        printf("jebol write_code\n");
         goto fail;
     }
  
@@ -449,12 +446,10 @@ int inject_code(int fd, inject_data_t *inject)
     
     if ((rewrite_code_section(&elf, inject) < 0)
             || (rewrite_section_name(&elf, inject) < 0)) {
-        printf("jebol section name\n");
         goto fail;
     }
     
     if (rewrite_code_segment(&elf, inject) < 0) {
-        printf("jebol code_segment\n");
         goto fail;
     }
 

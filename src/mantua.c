@@ -36,20 +36,21 @@ void *create_shared_memory(size_t size) {
 
 int read_persistent_time_storage() {
     int i = 0;
-    char base[] = "\x41\x54\xbe\x02\x00\x00\x00\x55\x48\x81";
+    char base[] = "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90";
 
     char *control = (char *)&create_persistent_time_storage;
     int res = -1;
-    control += 4;
+    control += 12;
     for (i = 0; i < 10; i++)
         if (*(base + i) != *(control + i)) {
             res = 1;
             break;
         }
 
-
-    if (res < 0)
+    if (res > 0)
         return -1;
+    
+    control -= 8;
 
     have_section = 1;
     
