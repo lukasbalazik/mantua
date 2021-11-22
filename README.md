@@ -120,7 +120,13 @@ Stopping capsule, argument is ID of capsule and return is **0** if time was unde
 
 ## AntiVM
 
-Soon...
+### Reading /proc/cpuinfo for hypervisor
+
+Program read **/proc/cpuinfo** and check if any line contain string hypervisor. If contain we call **BREAK_EVERYTHING()**.
+
+#### int hypervisor_in_cpuinfo();
+
+return **1** if we found the string, **0** if not
 
 ## AntiAV
 
