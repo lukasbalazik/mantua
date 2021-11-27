@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])  {
     mantua_init();
-    
+
     int tracer = tracer_pid();
     if (tracer < 0)
         printf("Im traced by process %d\n", tracer);
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])  {
     if (stop_time_capsule(autocap1) < 0)
         printf("AUTO_TIME capsule taken longer\n");
 
-    
+
     if (stop_time_capsule(cap1) < 0)
         printf("Capsule 1 Taken Longer than 1500000 microseconds\n");
 

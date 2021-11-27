@@ -1,6 +1,9 @@
 #include "mantua.h"
 
-void mantua_init() { 
+ void (*error_handler)();
+ int have_section;
+
+void mantua_init() {
     char *init = (char *)&_init;
     change_page_permissions_of_address(init);
     auto_time_capsule_position = 0;
@@ -49,15 +52,15 @@ int read_persistent_time_storage() {
 
     if (res > 0)
         return -1;
-    
+
     control -= 8;
 
     have_section = 1;
-    
+
     i = *(int *)control;
     control += 4;
     capsule_count = *(int *)control;
-    
+
     char *address = (char *)&_init;
     address += i - 0x2000;
 
@@ -68,9 +71,8 @@ int read_persistent_time_storage() {
         *(cap_ptr + i) = cap;
     }
 
-    
+
     return 1;
-    
 }
 
 int rewrite_create_persistent_time_storage(char *elf_fname, int storage) {

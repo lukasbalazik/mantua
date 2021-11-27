@@ -18,12 +18,9 @@ struct capsule {
    int id;
 };
 
-int capsule_count;
-int auto_time_capsule_position;
-struct capsule *cap_ptr;
-struct capsule *cap_auto_ptr;
-
-int auto_destruction;
-
+extern int capsule_count;
+extern int auto_time_capsule_position;
+extern struct capsule *cap_ptr;
+extern struct capsule *cap_auto_ptr;
 
 #endif

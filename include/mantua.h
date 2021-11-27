@@ -51,8 +51,8 @@ extern unsigned char *_init;
 extern unsigned char *_start;
 extern unsigned char *__etext;
 
-void (*error_handler)();
+extern void (*error_handler)();
 
-int have_section;
+extern int have_section;
 
 #endif

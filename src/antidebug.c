@@ -4,6 +4,10 @@
 #include <sys/wait.h>
 
 atomic_int acnt;
+int capsule_count;
+int auto_time_capsule_position;
+struct capsule *cap_ptr;
+struct capsule *cap_auto_ptr;
 
 int count_0xcc() {
     int count = 0;
@@ -59,16 +63,13 @@ int tracer_pid() {
 int start_time_capsule(uint64_t microseconds) {
     if (microseconds == AUTO_TIME && have_section) {
         if (!(cap_ptr + auto_time_capsule_position)) {
-            if (auto_destruction) {
-                BREAK_EVERYTHING();
-            } else {
-                return -1;
-            }
+            BREAK_EVERYTHING();
+            return -1;
         }
         gettimeofday(&(cap_ptr + auto_time_capsule_position)->start, NULL);
         return auto_time_capsule_position++;
     }
-    
+
     if (microseconds == AUTO_TIME) {
         auto_time_capsule_position++;
     }
@@ -91,11 +92,8 @@ int start_time_capsule(uint64_t microseconds) {
 int stop_time_capsule(int capsule_id) {
     int ret = 0;
     if (!(cap_ptr + capsule_id) || capsule_id < 0) {
-        if (auto_destruction) {
-            BREAK_EVERYTHING();
-        } else {
-            return -1;
-        }
+        BREAK_EVERYTHING();
+        return -1;
     }
 
     struct capsule *cap = (cap_ptr + capsule_id);
@@ -160,8 +158,8 @@ int ptrace_seize(int pid, int type, int *fd) {
     if (type == PARENT && status < 32) {
         sleep(0.001);
         BREAK_EVERYTHING();
-    } 
-    return res; 
+    }
+    return res;
 }
 
 void *ptrace_cycle(void *var) {
@@ -170,7 +168,7 @@ void *ptrace_cycle(void *var) {
     int res = 0;
 
     res = pipe(fd);
-    
+
     int pid = fork();
 
     if (pid == -1) {
@@ -189,7 +187,7 @@ void *ptrace_cycle(void *var) {
         close(fd[1]);
         int flags = fcntl(fd[0], F_GETFL, 0);
         fcntl(fd[0], F_SETFL, flags | O_NONBLOCK);
-        
+
         int retry;
         for (retry = 0; retry < 1000; retry++) {
             sleep(0.001);
