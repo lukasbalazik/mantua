@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "mantua.h"
 
+
 int main(int argc, char *argv[])  {
     mantua_init();
 
@@ -33,6 +34,9 @@ int main(int argc, char *argv[])  {
 
     int ret = hypervisor_in_cpuinfo();
     printf("hypervisor in /proc/cpuinfo: %d\n", ret);
+    
+    ret = vm_signs_in_klog();
+    printf("vm_signs_in_klog: %d\n", ret);
 
     mantua_finish(argv[0]);
 
