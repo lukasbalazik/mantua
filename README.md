@@ -147,6 +147,14 @@ Program read **/proc/cpuinfo** and check if any line contain string hypervisor. 
 
 return **1** if we found the string, **0** if not
 
+### Reading klog for signs of virtualization
+
+Reads kernel log and check if any of needles exists in haystack, if we contain we call **BREAK_EVERYTHING()**.
+
+#### int vm_signs_in_klog();
+
+return **1** if we found needle in haystack, **0** if not
+
 ## AntiAV
 
 Soon...
