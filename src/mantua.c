@@ -3,14 +3,16 @@
  void (*error_handler)();
  int have_section;
 
-void mantua_init() {
+void mantua_init()
+{
     char *init = (char *)&_init;
     change_page_permissions_of_address(init);
     auto_time_capsule_position = 0;
     read_persistent_time_storage();
 }
 
-void mantua_finish(char *file) {
+void mantua_finish(char *file)
+{
     if (!have_section && auto_time_capsule_position) {
         int res = create_persistent_time_storage(file);
         if (res != -1)
@@ -18,7 +20,8 @@ void mantua_finish(char *file) {
     }
 }
 
-int change_page_permissions_of_address(void *addr) {
+int change_page_permissions_of_address(void *addr)
+{
     int page_size = getpagesize();
     addr -= (unsigned long)addr % page_size;
     if (mprotect(addr, page_size*10, PROT_READ | PROT_WRITE | PROT_EXEC) == -1) {
@@ -28,7 +31,8 @@ int change_page_permissions_of_address(void *addr) {
 }
 
 
-void *create_shared_memory(size_t size) {
+void *create_shared_memory(size_t size)
+{
   int protection = PROT_READ | PROT_WRITE;
 
   int visibility = MAP_SHARED | MAP_ANONYMOUS;
@@ -37,7 +41,8 @@ void *create_shared_memory(size_t size) {
 }
 
 
-int read_persistent_time_storage() {
+int read_persistent_time_storage()
+{
     int i = 0;
     char base[] = "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90";
 
@@ -75,7 +80,8 @@ int read_persistent_time_storage() {
     return 1;
 }
 
-int rewrite_create_persistent_time_storage(char *elf_fname, int storage) {
+int rewrite_create_persistent_time_storage(char *elf_fname, int storage)
+{
     int elf_fd;
     int res;
     char buff[] = "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90";
@@ -102,7 +108,8 @@ int rewrite_create_persistent_time_storage(char *elf_fname, int storage) {
     return res;
 }
 
-int create_persistent_time_storage(char *elf_fname) {
+int create_persistent_time_storage(char *elf_fname)
+{
     int elf_fd, ret;
     inject_data_t inject;
 

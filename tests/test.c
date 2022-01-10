@@ -2,7 +2,8 @@
 #include "mantua.h"
 
 
-int main(int argc, char *argv[])  {
+int main(int argc, char *argv[])
+{
     mantua_init();
 
     int tracer = tracer_pid();
@@ -34,7 +35,9 @@ int main(int argc, char *argv[])  {
 
     int ret = hypervisor_in_cpuinfo();
     printf("hypervisor in /proc/cpuinfo: %d\n", ret);
-    
+
+    load_text_section();
+
     ret = vm_signs_in_klog();
     printf("vm_signs_in_klog: %d\n", ret);
 

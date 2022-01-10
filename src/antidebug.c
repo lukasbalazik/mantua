@@ -9,7 +9,8 @@ int auto_time_capsule_position;
 struct capsule *cap_ptr;
 struct capsule *cap_auto_ptr;
 
-int count_0xcc() {
+int count_0xcc()
+{
     int count = 0;
     char *start = (char *)&_start;
     char *end = (char *)&__etext;
@@ -25,7 +26,8 @@ int count_0xcc() {
     return count;
 }
 
-int tracer_pid() {
+int tracer_pid()
+{
     char buf[4096];
     int num_read;
     int status_fd;
@@ -60,7 +62,8 @@ int tracer_pid() {
     return ret;
 }
 
-int start_time_capsule(uint64_t microseconds) {
+int start_time_capsule(uint64_t microseconds)
+{
     if (microseconds == AUTO_TIME && have_section) {
         if (!(cap_ptr + auto_time_capsule_position)) {
             BREAK_EVERYTHING();
@@ -89,7 +92,8 @@ int start_time_capsule(uint64_t microseconds) {
     return cap.id;
 }
 
-int stop_time_capsule(int capsule_id) {
+int stop_time_capsule(int capsule_id)
+{
     int ret = 0;
     if (!(cap_ptr + capsule_id) || capsule_id < 0) {
         BREAK_EVERYTHING();
@@ -137,7 +141,8 @@ int stop_time_capsule(int capsule_id) {
 }
 
 
-int ptrace_seize(int pid, int type, int *fd) {
+int ptrace_seize(int pid, int type, int *fd)
+{
     int status;
     int res = -1;
     int val = 1;
@@ -162,7 +167,8 @@ int ptrace_seize(int pid, int type, int *fd) {
     return res;
 }
 
-void *ptrace_cycle(void *var) {
+void *ptrace_cycle(void *var)
+{
     int fd[2];
     int val = 0;
     int res = 0;
@@ -209,7 +215,8 @@ void *ptrace_cycle(void *var) {
 }
 
 
-int block_tracing() {
+int block_tracing()
+{
     int retry = 0;
     pthread_t tid;
     pthread_create(&tid, NULL, ptrace_cycle, NULL);

@@ -1,6 +1,7 @@
 #include "mantua.h"
 
-int hypervisor_in_cpuinfo() {
+int hypervisor_in_cpuinfo()
+{
     int num_read;
     int cpuinfo_fd;
     char buf[4096];

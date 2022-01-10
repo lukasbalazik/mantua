@@ -18,6 +18,7 @@
 
 #include "antidebug.h"
 #include "antivm.h"
+#include "poly.h"
 #include "elf_inject.h"
 
 #define PARENT 0
