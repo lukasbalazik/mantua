@@ -127,7 +127,7 @@ int write_shdr(elf_data_t *elf, Elf_Scn *scn, GElf_Shdr *shdr, size_t sidx)
     if (off < 0) {
         return -1;
     }
-        
+
     n = write(elf->fd, shdr_buf, shdr_size);
     if (n != shdr_size) {
         return -1;
@@ -151,7 +151,7 @@ int reorder_shdrs(elf_data_t *elf, inject_data_t *inject)
     }
 
     if (scn && shdr.sh_addr > inject->shdr.sh_addr) {
-        
+
         direction = -1;
     }
 
@@ -161,18 +161,18 @@ int reorder_shdrs(elf_data_t *elf, inject_data_t *inject)
     }
 
     if (scn && shdr.sh_addr < inject->shdr.sh_addr) {
-        
+
         direction = 1;
     }
 
     if (direction == 0) {
-        
+
         return 0;
     }
 
-    
+
     skip = 0;
-    for (scn = elf_getscn(elf->e, inject->sidx + direction); 
+    for (scn = elf_getscn(elf->e, inject->sidx + direction);
             scn != NULL;
             scn = elf_getscn(elf->e, inject->sidx + direction + skip)) {
 
@@ -182,17 +182,17 @@ int reorder_shdrs(elf_data_t *elf, inject_data_t *inject)
 
         if ((direction < 0 && shdr.sh_addr <= inject->shdr.sh_addr)
              || (direction > 0 && shdr.sh_addr >= inject->shdr.sh_addr)) {
-            
+
             break;
         }
 
-        
+
         if (shdr.sh_type != SHT_PROGBITS) {
             skip += direction;
             continue;
         }
 
-        
+
         if (write_shdr(elf, scn, &inject->shdr, elf_ndxscn(scn)) < 0) {
             return -1;
         }
@@ -219,7 +219,7 @@ int write_secname(elf_data_t *elf, inject_data_t *inject)
     if (off < 0) {
         return -1;
     }
-    
+
     n = write(elf->fd, inject->secname, strlen(inject->secname));
     if (n != strlen(inject->secname)) {
         return -1;
@@ -267,14 +267,14 @@ int find_rewritable_segment(elf_data_t *elf, inject_data_t *inject)
 
 int rewrite_code_segment(elf_data_t *elf, inject_data_t *inject)
 {
-    inject->phdr.p_type = PT_LOAD;   
-    inject->phdr.p_offset = inject->off;         
-    inject->phdr.p_vaddr = inject->secaddr; 
-    inject->phdr.p_paddr = inject->secaddr; 
-    inject->phdr.p_filesz = inject->len;         
-    inject->phdr.p_memsz = inject->len;         
-    inject->phdr.p_flags = PF_R | PF_X;         
-    inject->phdr.p_align = 0x1000;                    
+    inject->phdr.p_type = PT_LOAD;
+    inject->phdr.p_offset = inject->off;
+    inject->phdr.p_vaddr = inject->secaddr;
+    inject->phdr.p_paddr = inject->secaddr;
+    inject->phdr.p_filesz = inject->len;
+    inject->phdr.p_memsz = inject->len;
+    inject->phdr.p_flags = PF_R | PF_X;
+    inject->phdr.p_align = 0x1000;
 
     if (write_phdr(elf, inject) < 0) {
         return -1;
@@ -306,16 +306,16 @@ int rewrite_code_section(elf_data_t *elf, inject_data_t *inject)
         }
 
         if (!strcmp(s, ABITAG_NAME)) {
-            shdr.sh_name            = shdr.sh_name;                            
-            shdr.sh_type            = SHT_PROGBITS;                            
-            shdr.sh_flags         = SHF_ALLOC | SHF_EXECINSTR; 
-            shdr.sh_addr            = inject->secaddr;                     
-            shdr.sh_offset        = inject->off;                             
-            shdr.sh_size            = inject->len;                             
-            shdr.sh_link            = 0;                                                 
-            shdr.sh_info            = 0;                                                 
-            shdr.sh_addralign = 16;                                                
-            shdr.sh_entsize     = 0;                                                 
+            shdr.sh_name            = shdr.sh_name;
+            shdr.sh_type            = SHT_PROGBITS;
+            shdr.sh_flags         = SHF_ALLOC | SHF_EXECINSTR;
+            shdr.sh_addr            = inject->secaddr;
+            shdr.sh_offset        = inject->off;
+            shdr.sh_size            = inject->len;
+            shdr.sh_link            = 0;
+            shdr.sh_info            = 0;
+            shdr.sh_addralign = 16;
+            shdr.sh_entsize     = 0;
 
             inject->sidx = elf_ndxscn(scn);
             inject->scn = scn;
@@ -368,9 +368,9 @@ int rewrite_section_name(elf_data_t *elf, inject_data_t *inject)
         }
 
         if (!strcmp(s, ABITAG_NAME)) {
-            stroff = shdr.sh_name;        
+            stroff = shdr.sh_name;
         } else if (!strcmp(s, SHSTRTAB_NAME)) {
-            strbase = shdr.sh_offset; 
+            strbase = shdr.sh_offset;
         }
     }
 
@@ -404,7 +404,7 @@ int inject_code(int fd, inject_data_t *inject)
         goto fail;
     }
 
-    
+
     elf.e = elf_begin(elf.fd, ELF_C_READ, NULL);
     if (!elf.e) {
         goto fail;
@@ -416,44 +416,44 @@ int inject_code(int fd, inject_data_t *inject)
 
     ret = gelf_getclass(elf.e);
     switch (ret) {
-    case ELFCLASSNONE:
-        goto fail;
-    case ELFCLASS32:
-        elf.bits = 32;
-        break;
-    default:
-        elf.bits = 64;
-        break;
+        case ELFCLASSNONE:
+            goto fail;
+        case ELFCLASS32:
+            elf.bits = 32;
+            break;
+        default:
+            elf.bits = 64;
+            break;
     }
 
     if (!gelf_getehdr(elf.e, &elf.ehdr)) {
         goto fail;
     }
-    
-    
+
+
     if (find_rewritable_segment(&elf, inject) < 0) {
         goto fail;
     }
 
-    
+
     if (write_code(&elf, inject) < 0) {
         goto fail;
     }
- 
+
     n = (inject->off % 4096) - (inject->secaddr % 4096);
     inject->secaddr += n;
     ret = inject->secaddr;
-    
+
     if ((rewrite_code_section(&elf, inject) < 0)
             || (rewrite_section_name(&elf, inject) < 0)) {
         goto fail;
     }
-    
+
     if (rewrite_code_segment(&elf, inject) < 0) {
         goto fail;
     }
 
-    
+
     goto cleanup;
 
 fail:
