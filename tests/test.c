@@ -7,8 +7,8 @@ int main(int argc, char *argv[])
     mantua_init();
 
     int tracer = tracer_pid();
-    if (tracer < 0)
-        printf("Im traced by process %d\n", tracer);
+    if (tracer)
+        printf("Im traced by process starting with %d\n", tracer);
 
     block_tracing();
 
