@@ -45,14 +45,12 @@ int tracer_pid()
         return -1;
 
     buf[num_read] = '\0';
-    strncpy(tracer_pid_ptr, strstr(buf, tracer_pid_string), num_read);
+    strncpy(tracer_pid_ptr, strstr(buf, tracer_pid_string) + 11, num_read);
 
     for (c_ptr = tracer_pid_ptr + sizeof(tracer_pid_string) - 1; c_ptr <= tracer_pid_ptr + num_read; ++c_ptr) {
-        if (isspace(*c_ptr)) {
-            continue;
-	    } else {
-            ret = isdigit(*c_ptr) != 0 && *c_ptr != '0';
-	    }
+        ret = isdigit(*c_ptr) != 0 && *c_ptr != '0';
+        if (ret)
+            break;
     }
 
     if (ret != 0) {
