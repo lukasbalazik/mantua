@@ -91,7 +91,7 @@ Program read **/proc/self/status** and check if **TracerPid** is **0**, if not w
 
 #### int tracer_pid();
 
-return **0** or pid of process which is tracing us
+return **0** or first number of pid process which is tracing us
 
 ---
 
