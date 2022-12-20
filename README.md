@@ -160,7 +160,7 @@ return **1** if we found needle in haystack, **0** if not
 
 ### Encrypting your functions
 
-Program encrypt your written function with aes and rewrite original in binary**.
+Program encrypt your written function with aes and rewrite original in binary**, for now it does not work with auto time capsules.
 
 #### int crypter_set_function(function);
 

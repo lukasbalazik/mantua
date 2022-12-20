@@ -55,13 +55,13 @@ int main(int argc, char *argv[])
     printf("hypervisor in /proc/cpuinfo: %d\n", ret);
 
 
-//    ret = vm_signs_in_klog();
-//    printf("vm_signs_in_klog: %d\n", ret);
+    ret = vm_signs_in_klog();
+    printf("vm_signs_in_klog: %d\n", ret);
 
     mantua_finish(argv[0]);
 
-//    if (start_morphing(argv[0]) < 0)
-//        printf("Morphing failed :(\n");
+    if (start_morphing(argv[0]) < 0)
+        printf("Morphing failed :(\n");
 
     return 0;
 }
