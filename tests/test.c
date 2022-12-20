@@ -1,9 +1,28 @@
 #include <stdio.h>
 #include "mantua.h"
 
+int secret() {
+    printf("Hello From Secret Function\n");
+    printf("Our function Secret Should be now encrypted\n");
+    return 0;
+}
+
+
+int secret2() {
+    printf("Hello From Secret2 Function\n");
+    printf("Our function Secret2 Should be now encrypted\n");
+    return 0;
+}
 
 int main(int argc, char *argv[])
 {
+    crypter_set_function(secret);
+    crypter_set_function(secret2);
+
+    crypter_init(argv[0]);
+
+    secret();
+    secret2();
     mantua_init();
 
     int tracer = tracer_pid();
@@ -31,19 +50,18 @@ int main(int argc, char *argv[])
         printf("Capsule 1 Taken Longer than 1500000 microseconds\n");
 
     printf("My code that will not be debbuged\n");
-    fflush(stdout);
 
     int ret = hypervisor_in_cpuinfo();
     printf("hypervisor in /proc/cpuinfo: %d\n", ret);
 
 
-    ret = vm_signs_in_klog();
-    printf("vm_signs_in_klog: %d\n", ret);
+//    ret = vm_signs_in_klog();
+//    printf("vm_signs_in_klog: %d\n", ret);
 
     mantua_finish(argv[0]);
 
-    if (start_morphing(argv[0]) < 0)
-        printf("Morphing failed :(\n");
+//    if (start_morphing(argv[0]) < 0)
+//        printf("Morphing failed :(\n");
 
     return 0;
 }

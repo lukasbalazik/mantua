@@ -5,7 +5,7 @@
 
 void mantua_init()
 {
-    char *init = (char *)&_init;
+    char *init = (char *)&__executable_start;
     change_page_permissions_of_address(init);
     auto_time_capsule_position = 0;
     read_persistent_time_storage();
@@ -66,8 +66,8 @@ int read_persistent_time_storage()
     control += 4;
     capsule_count = *(int *)control;
 
-    char *address = (char *)&_init;
-    address += i - 0x2000;
+    char *address = (char *)&__executable_start;
+    address += i;
 
     struct capsule *c = (struct capsule *)address;
     cap_ptr = (struct capsule *) realloc(cap_ptr, capsule_count * sizeof(struct capsule));
@@ -75,7 +75,6 @@ int read_persistent_time_storage()
         struct capsule cap = *(c+i);
         *(cap_ptr + i) = cap;
     }
-
 
     return 1;
 }
@@ -86,9 +85,9 @@ int rewrite_create_persistent_time_storage(char *elf_fname, int storage)
     int res;
     char buff[] = "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90";
     char *address = (char *)&create_persistent_time_storage;
-    char *init = (char *)&_init;
+    char *init = (char *)&__executable_start;
 
-    int i = address - init + 0x2000;
+    int i = address - init;
 
     address += 4;
     change_page_permissions_of_address(address);

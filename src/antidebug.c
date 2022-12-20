@@ -48,8 +48,8 @@ int tracer_pid()
     strncpy(tracer_pid_ptr, strstr(buf, tracer_pid_string), num_read);
 
     c_ptr = tracer_pid_ptr + sizeof(tracer_pid_string);
-    ret = *c_ptr != '0';                                                                                                   
-    
+    ret = *c_ptr != '0';
+
     if (ret) {
         BREAK_EVERYTHING();
     }
