@@ -85,7 +85,7 @@ Return value is number of 0xcc found from symbol **_start** to symbol **__etext*
 
 ---
 
-### Reading Tracer pid from /proc/self/status 
+### Reading Tracer pid from /proc/self/status
 
 Program read **/proc/self/status** and check if **TracerPid** is **0**, if not we call **BREAK_EVERYTHING()**. If you want to you use this functionality you have to run this function before **block_tracing()**
 
@@ -157,7 +157,18 @@ return **1** if we found needle in haystack, **0** if not
 
 ## AntiAV
 
-Soon...
+
+### Encrypting your functions
+
+Program encrypt your written function with aes and rewrite original in binary**.
+
+#### int crypter_set_function(function);
+
+Set your function to crypter
+
+#### int crypter_init(argv[0]);
+
+Start crypter with his rewrite functionality
 
 
 
